@@ -1,0 +1,11 @@
+# Directories
+0_data/forVS
+empirical/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
