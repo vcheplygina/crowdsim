@@ -1,3 +1,7 @@
+# folders to be ignores
+Extra/Data/anchor_images
+Extra/Data/unlabeled_images
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
