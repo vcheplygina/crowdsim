@@ -12,7 +12,7 @@ and train the rest of the layers and b) train all layers including the convoluti
 """
 
 NAME = '0_baseline'
-PROJECT = 'HINTS'
+PROJECT = 'CROWDSIM'
 PYTHON_VERSION = '3.8.2'
 KERAS_VERSION = '2.4.2'
 TENSOR_FLOW_GPU = '2.2.0'
@@ -58,12 +58,13 @@ def read_data(seed):
     global test_id, test_label_c, class_weights, train, validation
     global train_id, train_label_c, valid_id, valid_label_c, test_id, test_label_c, class_weights
 
-    ground_truth_file = os.path.join('0_data', 'forVS', 'PH2_Ground_Truths.csv')
-    train_id, train_label_c, valid_id, valid_label_c, test_id, test_label_c, class_weights = get_baseline_data(
-        ground_truth_file, seed, VERBOSE)
+    # ground_truth_file = os.path.join('0_data', 'forVS', 'PH2_Ground_Truths.csv')
+    ground_truth_file = r"C:/Users/COBOD/3D Objects/ISIC-2017_Training_Data/ISIC-2017_Training_Part3_GroundTruth.csv"
+    train_id, train_label_c, valid_id, valid_label_c, test_id, test_label_c, class_weights = get_baseline_data(ground_truth_file, seed, VERBOSE)
 
-    data_path = os.path.join('0_data', 'forVS')
-    train = generate_data_1(directory=data_path, augmentation=True, batchsize=BATCH_SIZE, file_list=train_id,
+    # data_path = os.path.join('0_data', 'forVS')
+    data_path = r"C:/Users/COBOD/3D Objects/ISIC-2017_Training_Data"
+    train = generate_data_1(directory=data_path, augmentation=False, batchsize=BATCH_SIZE, file_list=train_id,
                             label_1=train_label_c)
     validation = generate_data_1(directory=data_path, augmentation=False, batchsize=BATCH_SIZE, file_list=valid_id,
                                  label_1=valid_label_c)
@@ -132,7 +133,8 @@ def fit_model(model):
 
 
 def predict_model(model):
-    test = generate_data_1(directory=os.path.join('0_data', 'forVS'), augmentation=False,
+    ## Please note that augmentation is set to "True" like in Ralf's. and we use the VGG16 conv.
+    test = generate_data_1(directory=r"C:/Users/COBOD/3D Objects/ISIC-2017_Training_Data", augmentation=False,
                            batchsize=BATCH_SIZE, file_list=test_id, label_1=test_label_c)
     predictions = model.predict_generator(test, steps=PREDICTION_STEPS)
     y_true = test_label_c

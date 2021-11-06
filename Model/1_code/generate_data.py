@@ -10,7 +10,8 @@ def generate_data_1(directory, augmentation, batchsize, file_list, label_1):
         for b in range(batchsize):
             if i == (len(file_list)):
                 i = 0
-            img = image.load_img(directory + '/' + file_list.iloc[i] + '.bmp', grayscale=False, target_size=(384, 384))
+            # .jpg for ISIC
+            img = image.load_img(directory + '/' + file_list.iloc[i] + '.jpg', grayscale=False, target_size=(384, 384))
             img = image.img_to_array(img)
 
             if augmentation:

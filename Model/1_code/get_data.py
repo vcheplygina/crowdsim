@@ -223,6 +223,7 @@ def get_baseline_data(ground_truth_file, seed, verbose):
     df = pd.read_csv(ground_truth_file)
     class_label = df['melanoma'] + df['seborrheic_keratosis']
     class_id = df['image_id']
+    print(seed)
 
     X_train, X_test, y_train, y_test = train_test_split(
         class_id,
