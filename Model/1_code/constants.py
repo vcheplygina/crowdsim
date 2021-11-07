@@ -1,6 +1,6 @@
 import enum
 
-TRIAL = True
+TRIAL = False
 SANITY_CHECK = False
 VERBOSE = True
 CONV_LAYER_FROZEN = False
@@ -21,7 +21,7 @@ else:
     EPOCHS = 30
     STEPS_PER_EPOCH_MODEL_2 = 40
     EPOCHS_MODEL_2 = 60
-    seeds = [1972,2021]
+    seeds = [1972]
 
 
 # ---------

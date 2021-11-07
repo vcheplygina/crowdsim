@@ -64,9 +64,9 @@ def read_data(seed):
 
     # data_path = os.path.join('0_data', 'forVS')
     data_path = r"C:/Users/COBOD/3D Objects/ISIC-2017_Training_Data"
-    train = generate_data_1(directory=data_path, augmentation=False, batchsize=BATCH_SIZE, file_list=train_id,
+    train = generate_data_1(directory=data_path, augmentation=True, batchsize=BATCH_SIZE, file_list=train_id,
                             label_1=train_label_c)
-    validation = generate_data_1(directory=data_path, augmentation=False, batchsize=BATCH_SIZE, file_list=valid_id,
+    validation = generate_data_1(directory=data_path, augmentation=True, batchsize=BATCH_SIZE, file_list=valid_id,
                                  label_1=valid_label_c)
 
 
@@ -134,7 +134,7 @@ def fit_model(model):
 
 def predict_model(model):
     ## Please note that augmentation is set to "True" like in Ralf's. and we use the VGG16 conv.
-    test = generate_data_1(directory=r"C:/Users/COBOD/3D Objects/ISIC-2017_Training_Data", augmentation=False,
+    test = generate_data_1(directory=r"C:/Users/COBOD/3D Objects/ISIC-2017_Training_Data", augmentation=True,
                            batchsize=BATCH_SIZE, file_list=test_id, label_1=test_label_c)
     predictions = model.predict_generator(test, steps=PREDICTION_STEPS)
     y_true = test_label_c
