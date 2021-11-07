@@ -250,6 +250,38 @@ def get_baseline_data(ground_truth_file, seed, verbose):
 
     return (X_train, y_train, X_validate, y_validate, X_test, y_test, class_weights)
 
+## For the Crowdsim
+def get_crowdsim_data(ground_truth_file, seed, verbose):
+    df = pd.read_csv(ground_truth_file)
+    class_label = df['melanoma']
+    class_id = df['image_id']
+    print(seed)
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        class_id,
+        class_label,
+        test_size=0.125,
+        random_state=seed,
+        shuffle=True,
+        stratify=class_label)
+    X_train, X_validate, y_train, y_validate = train_test_split(
+        X_train,
+        y_train,
+        test_size=0.2,
+        random_state=seed,
+        shuffle=True,
+        stratify=y_train)
+
+    class_weights = class_weight.compute_class_weight('balanced', np.unique(y_train), y_train)
+    class_weights = {i: class_weights[i] for i in range(2)}
+
+    if verbose:
+        print('in train set      = \n' + str(y_train.value_counts()))
+        print('in validation set = \n' + str(y_validate.value_counts()))
+        print('in test set       = \n' + str(y_test.value_counts()))
+
+    return (X_train, y_train, X_validate, y_validate, X_test, y_test, class_weights)
+
 
 def get_multi_task_data(group_path, ground_truth_file, seed, verbose, type, source, statsOutputFilename):
     if verbose:
