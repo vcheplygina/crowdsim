@@ -1,6 +1,6 @@
 import enum
 
-TRIAL = True
+TRIAL = False
 SANITY_CHECK = False
 VERBOSE = True
 CONV_LAYER_FROZEN = False
