@@ -18,22 +18,6 @@ PYTHON_VERSION = '3.8.2'
 KERAS_VERSION = '2.4.2'
 TENSOR_FLOW_GPU = '2.2.0'
 
-## Set working directory
-workdir = re.sub("(?<={})[\w\W]*".format(PROJECT), "", os.getcwd())
-os.chdir(workdir)
-
-## Set up pipeline folder if missing
-pipeline = os.path.join('empirical', '2_pipeline', NAME)
-if not os.path.exists(pipeline):
-    os.makedirs(pipeline)
-    for folder in ['out', 'store', 'tmp']:
-        os.makedirs(os.path.join(pipeline, folder))
-        for network in ['vgg16', 'inception', 'resnet']:
-            os.makedirs(os.path.join(pipeline, folder, network))
-
-
-
-
 # Preamble
 ## Imports
 from keras.initializers import glorot_uniform
@@ -54,6 +38,21 @@ from get_data import get_crowdsim_data
 # Extra import for matplotlib
 import matplotlib.pyplot as plt
 plt.style.use('fivethirtyeight')
+
+## Set working directory
+workdir = re.sub("(?<={})[\w\W]*".format(PROJECT), "", os.getcwd())
+os.chdir(workdir)
+
+## Set up pipeline folder if missing
+pipeline = os.path.join('empirical', '2_pipeline', NAME)
+if not os.path.exists(pipeline):
+    os.makedirs(pipeline)
+    for folder in ['out', 'store', 'tmp']:
+        os.makedirs(os.path.join(pipeline, folder))
+        for network in ['vgg16', 'inception', 'resnet']:
+            os.makedirs(os.path.join(pipeline, folder, network))
+
+
 
 #Reading the model from JSON file
 def load_model(seed): 
@@ -155,21 +154,26 @@ for seed in seeds:
     #load the model architecture 
     json_savedModel = load_model(seed)
     model_comb = tf.keras.models.model_from_json(json_savedModel)
+    print("Model loaded from JSON")
 
     # Load weights:
     weight_path = FILEPATH[:-4]+'h5'
     model_comb.load_weights((weight_path))
+    print("Weight loaded")
 
     #Compiling the model
     model_comb.compile(loss='binary_crossentropy',
                   optimizer=keras.optimizers.RMSprop(lr=2e-5),
                   metrics=['acc'])
 
+    model_comb.summary()
+    print("Model compiled")
 
     fit_model(model_comb)
 
     if SAVE_MODEL_WEIGHTS:
         save_model(model_comb, seed)
+        print("Model saved")
 
     report_acc_and_loss(history, get_output_filename(str(seed)+'acc_and_loss.csv'))
 
