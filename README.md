@@ -4,7 +4,18 @@ Machine learning algorithms for skin lesion classification typically learn from 
 
 
 # Our Google-Colab used to plot the data used in our report:
-Plotting of the raw batch results: https://colab.research.google.com/drive/1GfNeLsTTkTeM1smPC3a6JgJqyIRsRblw
-Filtering and plotting of the data after the data-extraction: https://colab.research.google.com/drive/1GhXObN568yiKT7YIjmjbXH-5Rbcxtfrd
-Plotting of the ML-models AUC: https://colab.research.google.com/drive/1uN2fwVSb26FGLJd1OBXjdGYyXVtgLoPG
+Plotting of the raw batch results:  
+https://colab.research.google.com/drive/1GfNeLsTTkTeM1smPC3a6JgJqyIRsRblw
+  
+  
+Filtering and plotting of the data after the data-extraction:  
+https://colab.research.google.com/drive/1GhXObN568yiKT7YIjmjbXH-5Rbcxtfrd
+  
+  
+Plotting of the ML-models AUC:  
+https://colab.research.google.com/drive/1uN2fwVSb26FGLJd1OBXjdGYyXVtgLoPG
+  
+  
+# Code for the used ML-model is developed by the authors who have the following GitHub-repo:
+https://github.com/raumannsr/ENHANCE/
 
