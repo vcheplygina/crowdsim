@@ -59,14 +59,18 @@ def read_data(seed):
     global train_id, train_label_c, valid_id, valid_label_c, test_id, test_label_c, class_weights
 
     # ground_truth_file = os.path.join('0_data', 'forVS', 'PH2_Ground_Truths.csv')
-    ground_truth_file = r"C:/Users/COBOD/OneDrive/CBS doku/ITU/3semester/Project/GitHubs/Project/crowdsim/Extra/Data/ORACLE_2021_GroundTruth.csv"
-    train_id, train_label_c, valid_id, valid_label_c, test_id, test_label_c, class_weights = get_crowdsim_data(ground_truth_file, seed, VERBOSE)
+    crowd_label_file = r"C:/Users/COBOD/OneDrive/CBS doku/ITU/3semester/Project/GitHubs/Project/crowdsim/Extra/Data/ORACLE_2021_GroundTruth.csv"
+    ground_truth_file = r"C:/Users/COBOD/3D Objects/ISIC-2017_Training_Data/ISIC-2017_Training_Part3_GroundTruth.csv"
+    train_id, train_label_c, valid_id, valid_label_c, test_id, test_label_c, class_weights = get_crowdsim_data(crowd_label_file, ground_truth_file, seed, VERBOSE)
 
     # data_path = os.path.join('0_data', 'forVS')
-    data_path = r"C:/Users/COBOD/OneDrive/CBS doku/ITU/3semester/Project/GitHubs/Project/crowdsim/Extra/Data/unlabeled_images/converted"
-    train = generate_data_1(directory=data_path, augmentation=True, batchsize=BATCH_SIZE, file_list=train_id,
+    data_path_crowd = r"C:/Users/COBOD/OneDrive/CBS doku/ITU/3semester/Project/GitHubs/Project/crowdsim/Extra/Data/unlabeled_images/converted"
+    data_path_val = r"C:/Users/COBOD/3D Objects/ISIC-2017_Training_Data"
+    train = generate_data_1(directory=data_path_crowd, augmentation=True, batchsize=BATCH_SIZE, file_list=train_id,
                             label_1=train_label_c)
-    validation = generate_data_1(directory=data_path, augmentation=True, batchsize=BATCH_SIZE, file_list=valid_id,
+
+                            ## Fix the validation
+    validation = generate_data_1(directory=data_path_val, augmentation=True, batchsize=BATCH_SIZE, file_list=valid_id,
                                  label_1=valid_label_c)
 
 
@@ -133,8 +137,9 @@ def fit_model(model):
 
 
 def predict_model(model):
-    ## Please note that augmentation is set to "True" like in Ralf's. and we use the VGG16 conv.
-    test = generate_data_1(directory=r"C:/Users/COBOD/OneDrive/CBS doku/ITU/3semester/Project/GitHubs/Project/crowdsim/Extra/Data/unlabeled_images/converted", augmentation=True,
+    ## Please note that augmentation is set to "True" like in Ralf's. and we use the Inception conv.
+    ## We use ISIC 2017 for testing data
+    test = generate_data_1(directory=r"C:/Users/COBOD/3D Objects/ISIC-2017_Training_Data", augmentation=True,
                            batchsize=BATCH_SIZE, file_list=test_id, label_1=test_label_c)
     predictions = model.predict_generator(test, steps=PREDICTION_STEPS)
     y_true = test_label_c
