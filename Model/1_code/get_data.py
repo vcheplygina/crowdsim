@@ -251,7 +251,7 @@ def get_baseline_data(ground_truth_file, seed, verbose):
 ## For the Crowdsim
 def get_crowdsim_data(crowd_label_file, ground_truth_file, seed, verbose):
     df = pd.read_csv(crowd_label_file)
-    class_label = df['melanoma']
+    class_label = df['abnormal']
     class_id = df['image_id']
     print(seed)
 
@@ -267,7 +267,7 @@ def get_crowdsim_data(crowd_label_file, ground_truth_file, seed, verbose):
     ## The crowdlabels are not ground truth labels, and should be 
     ## And should be measured against real ground truth labels
     df_truth = pd.read_csv(ground_truth_file)
-    class_label = df_truth['melanoma'].iloc[:384]
+    class_label = df_truth['abnormal'].iloc[:384]
     class_id = df_truth['image_id'].iloc[:384]
     X2_train, X_test, y2_train, y_test = train_test_split(
         class_id,
