@@ -146,8 +146,6 @@ def get_student_annotations_for_all_groups(path, dataType):
 # ---------
 def get_path_mturk(hints_type_value):
     return os.path.join('empirical', '2_pipeline', '4_mturk_to_csv', 'store')
-
-
 def get_mturk_asymmetry(path, verbose):
     if verbose: print('mturk: Asymmetry score is used')
     df = pd.read_csv(path + 'asymmetry.csv')
@@ -251,8 +249,8 @@ def get_baseline_data(ground_truth_file, seed, verbose):
     return (X_train, y_train, X_validate, y_validate, X_test, y_test, class_weights)
 
 ## For the Crowdsim
-def get_crowdsim_data(ground_truth_file, seed, verbose):
-    df = pd.read_csv(ground_truth_file)
+def get_crowdsim_data(crowd_label_file, ground_truth_file, seed, verbose):
+    df = pd.read_csv(crowd_label_file)
     class_label = df['melanoma']
     class_id = df['image_id']
     print(seed)
@@ -264,9 +262,24 @@ def get_crowdsim_data(ground_truth_file, seed, verbose):
         random_state=seed,
         shuffle=True,
         stratify=class_label)
-    X_train, X_validate, y_train, y_validate = train_test_split(
-        X_train,
-        y_train,
+
+    ## Using the ISIC 2017 for test and validation
+    ## The crowdlabels are not ground truth labels, and should be 
+    ## And should be measured against real ground truth labels
+    df_truth = pd.read_csv(ground_truth_file)
+    class_label = df_truth['melanoma'].iloc[:384]
+    class_id = df_truth['image_id'].iloc[:384]
+    X2_train, X_test, y2_train, y_test = train_test_split(
+        class_id,
+        class_label,
+        test_size=0.125,
+        random_state=seed,
+        shuffle=True,
+        stratify=class_label)
+
+    X2_train, X_validate, y2_train, y_validate = train_test_split(
+        X2_train,
+        y2_train,
         test_size=0.2,
         random_state=seed,
         shuffle=True,
